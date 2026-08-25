@@ -1,41 +1,69 @@
-# FetalGuard AI — Through Phase 8
+# FetalGuard AI 🩷
 
-A beginner-friendly, synthetic-data-only hackathon prototype. React sends a Daily Check-In to FastAPI; FastAPI saves it in SQLite and returns JSON. The app shows trends, a simple personal baseline, transparent rule-based change scoring, symptom keyword matches, and a safe explanation UI.
+FetalGuard AI is a small HealthTech hackathon prototype for monitoring changes in pregnancy-related health data over time.
 
-## Run the backend
+The idea is simple: instead of looking at a single health measurement in isolation, FetalGuard keeps track of previous measurements and creates a basic personal baseline. New check-ins are compared with that baseline to highlight noticeable changes.
 
-```bash
-cd backend
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
+The prototype also looks for a few symptoms entered in normal text and explains why a change was flagged.
 
-The API will be at `http://127.0.0.1:8000`. Visit `/docs` to try endpoints manually.
+> **Important:** FetalGuard AI is an educational prototype, not a medical device. It does not diagnose diseases, provide medical advice, or replace a healthcare professional.
 
-## Run the frontend
+---
 
-In a second terminal:
+## What it does
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+A user can submit a daily check-in containing:
 
-Open the local URL Vite prints (normally `http://localhost:5173`).
+- Pregnancy week
+- Systolic blood pressure
+- Diastolic blood pressure
+- Heart rate
+- Weight
+- Symptoms in plain text
 
-## Phase 1 endpoints
+The information is stored locally in SQLite.
 
-- `GET /api/health`
-- `GET /api/patients/{patient_id}`
-- `GET /api/health-records/{patient_id}`
-- `GET /api/dashboard/{patient_id}`
-- `POST /api/health-records/{patient_id}`
+FetalGuard then uses the available history to:
 
-Included through Phase 8: SQLite, SQLAlchemy, synthetic seed data, health-record retrieval, Recharts trends, a transparent simple-average baseline, simple change scoring, symptom keyword matching, and an explanation/alert UI. Not included: machine learning or Isolation Forest.
+- Show recent health information
+- Display blood pressure, heart-rate, and weight trends
+- Calculate a simple personal baseline
+- Compare new measurements with that baseline
+- Generate a transparent change score
+- Detect a small set of symptom keywords
+- Explain the reasons behind a flagged change
 
-## Safety note
+All data used in this repository is synthetic demo data.
 
-This uses synthetic demo data only. Its scoring and keyword matching are simple software demonstrations, not clinical rules, medical advice, or diagnosis.
+---
+
+## How it works
+
+The application has two main parts: a React frontend and a Python/FastAPI backend.
+
+```text
+                    FetalGuard AI
+
+                         User
+                          │
+                          ▼
+                 React + Vite
+                    Frontend
+                          │
+                     HTTP / JSON
+                          │
+                          ▼
+                    FastAPI
+                    Backend
+                          │
+              ┌───────────┴───────────┐
+              │                       │
+              ▼                       ▼
+           SQLite              Analysis Logic
+              │                       │
+              └───────────┬───────────┘
+                          ▼
+                    JSON response
+                          │
+                          ▼
+                    React UI
