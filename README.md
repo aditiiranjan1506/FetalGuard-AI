@@ -1,4 +1,4 @@
-# FetalGuard AI 🩷
+# FetalGuard AI 
 
 FetalGuard AI is a small HealthTech hackathon prototype for monitoring changes in pregnancy-related health data over time.
 
